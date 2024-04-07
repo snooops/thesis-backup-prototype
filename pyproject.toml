@@ -15,7 +15,7 @@ classifiers = [
 
 dependencies = [
     "jsonschema",
-    "requests"
+    "requests",
     "Django",
     "django-apscheduler"
 ]

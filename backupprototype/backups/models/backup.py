@@ -24,3 +24,24 @@ class BackupTarget(models.Model):
     # outcome of last ping check
     client_reachable = models.BooleanField(default=False)
 
+
+class BackupJob(models.Model):
+
+    backup_target = models.ForeignKey(
+        "BackupTarget",
+        on_delete=models.CASCADE,
+    )
+
+    name = models.CharField(max_length=128)
+
+    # for cron job syntax
+    run_cron =  models.CharField(max_length=128)
+
+    def hostname(self):
+        return self.backup_target.hostname
+    
+    def ip(self):
+        return self.backup_target.ip
+    
+    def __str__(self):
+        return self.name
