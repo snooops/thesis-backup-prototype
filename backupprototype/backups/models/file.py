@@ -22,4 +22,15 @@ class BackupFileJobPath(models.Model):
     )
 
     # hostname of the backup target.
-    path = models.CharField(max_length=2048) 
+    path = models.CharField(max_length=2048)
+
+    # fs type of the path, file or directory?
+    fs_type = models.CharField(max_length=16)
+
+    # last time the file was modified
+    stat_modified = models.IntegerField()
+
+    # last time the permissions of the file where changed
+    stat_changed = models.IntegerField()
+
+    stat_size = models.IntegerField()

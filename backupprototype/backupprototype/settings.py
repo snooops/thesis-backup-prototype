@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,6 @@ SECRET_KEY = 'django-insecure-f^!0l((8!!8ujp)*o%+(we5=8oc)9*6chghp88=j@@%e7-j@y9
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -139,3 +139,17 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, H:s"
 # that supports multiple background worker processes instead (e.g. Dramatiq, Celery, Django-RQ,
 # etc. See: https://djangopackages.org/grids/g/workers-queues-tasks/ for popular options).
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+# CELERY Settings
+# Celery Configuration Options
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = "pyamqp://guest@localhost//"
+CELERY_BACKEND = 'rpc://'
+
+CELERY_BEAT_SCHEDULE = {
+    'backup_ping_targets': {
+        'task': 'backups.tasks.backup.ping_targets',
+        'schedule': crontab(minute='*/1'),  # Schedule the task to run every minute
+    },
+}
