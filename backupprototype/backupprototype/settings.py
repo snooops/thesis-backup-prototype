@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_apscheduler',
+    'django_celery_beat',
     'backups.apps.BackupsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -146,10 +146,10 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = "pyamqp://guest@localhost//"
 CELERY_BACKEND = 'rpc://'
-
-CELERY_BEAT_SCHEDULE = {
-    'backup_ping_targets': {
-        'task': 'backups.tasks.backup.ping_targets',
-        'schedule': crontab(minute='*/1'),  # Schedule the task to run every minute
-    },
-}
+# CELERY_BEAT_SCHEDULER = "DatabaseScheduler"
+# CELERY_BEAT_SCHEDULE = {
+#     'backup_ping_targets': {
+#         'task': 'backups.tasks.backup.ping_targets',
+#         'schedule': crontab(minute='*/1'),  # Schedule the task to run every minute
+#     },
+# }
