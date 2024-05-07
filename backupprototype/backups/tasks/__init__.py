@@ -1,2 +1,2 @@
 from .backup import ping_targets
-from .file import run_backup
+from .file import schedule_backup_jobs
