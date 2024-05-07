@@ -3,7 +3,7 @@ from backups.models import BackupTarget, BackupJob, BackupFileJob
 from celery import shared_task
 import requests
 from django.utils import timezone
-from django_celery_beat.models import PeriodicTask, CrontabSchedule
+from django_celery_beat.models import PeriodicTasks, CrontabSchedule
 from celery.schedules import crontab
 
 
@@ -17,14 +17,14 @@ def schedule_backup_jobs():
         # get backup target host attributes
         backup_target = backup_job.backup_target
 
-        new_periodic_task = PeriodicTask(
+        new_periodic_task = PeriodicTasks(
             name=f"{backup_target.hostname} at {backup_job.name}",
             task="backups.tasks.file.run_backup",
         )
 
         # saving entry
         new_periodic_task.save()
-
+        PeriodicTasks.update_changed()
 
 def run_file_backup():
     print("Do the filebackup")
